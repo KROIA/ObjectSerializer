@@ -55,7 +55,9 @@ namespace ObjectSerializer
 
         };
         public:
+#if LOGGER_LIBRARY_AVAILABLE == 1
         static Log::LogObject& getLogger();
+#endif
         static VTableMetaData& getVTableMetaData();
         static void saveVtable(bool doSave)
         {
@@ -78,7 +80,9 @@ namespace ObjectSerializer
 			size_t hashCode = typeid(T).hash_code();
             if (isTypeRegistered(hashCode))
             {
+#if LOGGER_LIBRARY_AVAILABLE == 1
 				getLogger().logWarning("Type: " + std::string(typeid(T).name()) + " already registered");
+#endif
                 return;
             }
 
@@ -96,7 +100,9 @@ namespace ObjectSerializer
             static_assert(std::is_base_of<ISerializable, T>::value, "T must be derived from ISerializable");
             if (!obj)
             {
+#if LOGGER_LIBRARY_AVAILABLE == 1
 				getLogger().logError("Object is nullptr");
+#endif
 				return false;
             }
             if (!isTypeRegistered(typeid(*obj).hash_code()))

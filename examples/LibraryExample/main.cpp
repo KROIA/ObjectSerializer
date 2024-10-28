@@ -1,5 +1,5 @@
 #ifdef QT_ENABLED
-#include <QApplication>
+#include <QCoreApplication>
 #endif
 #include <iostream>
 #include "ObjectSerializer.h"
@@ -8,7 +8,6 @@
 #include <QWidget>
 #endif
 
-#pragma pack(push, 1) // Start 1-byte alignment for the following structs
 
 // Example structs
 struct ExampleStruct : public ObjectSerializer::ISerializableID {
@@ -40,7 +39,6 @@ struct AnotherStruct : public ObjectSerializer::ISerializable {
 	int z = 65;
 };
 
-#pragma pack(pop) // Reset to default alignment
 
 int main(int argc, char* argv[])
 {
@@ -50,7 +48,7 @@ int main(int argc, char* argv[])
 	QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
 #ifdef QT_ENABLED
-	QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 #endif
     ObjectSerializer::Serializer serializer;
 
@@ -130,7 +128,7 @@ int main(int argc, char* argv[])
             std::cout << "2 ID: " << example->getID() << "  ";
             std::cout << "Example struct: text=" << example->text << ", b=" << example->b << "\n";
         }
-}
+    }
     else
     {
 

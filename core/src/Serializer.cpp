@@ -5,11 +5,13 @@
 
 namespace ObjectSerializer
 {
+#if LOGGER_LIBRARY_AVAILABLE == 1
 	Log::LogObject& Serializer::getLogger()
 	{
 		static Log::LogObject logger("ObjectSerializer::Serializer");
 		return logger;
 	}
+#endif
 	Serializer::Serializer()
 	{
 
@@ -30,7 +32,7 @@ namespace ObjectSerializer
 
 	bool Serializer::saveToFile(const std::string& filename, const std::vector<ISerializable*>& objs)
 	{
-#ifdef OBJECT_SERIALIZER_DEBUG
+#if defined(OBJECT_SERIALIZER_DEBUG) && LOGGER_LIBRARY_AVAILABLE == 1
 		Log::LogObject& logger = getLogger();
 #endif
 		const auto& mataMap = getObjectMetaData();
@@ -38,7 +40,9 @@ namespace ObjectSerializer
 		std::ofstream outFile(filename, std::ios::binary);
 		if (!outFile.is_open())
 		{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 			getLogger().logError("Failed to open file: " + filename);
+#endif
 			return false;
 		}
 		for (const auto& obj : objs)
@@ -57,7 +61,9 @@ namespace ObjectSerializer
 				{
 					if (meta.size < vTableMetaData.size)
 					{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 						getLogger().logError("Object size is less than vtable size. Type: " + meta.name);
+#endif
 						continue;
 					}
 					byteCount -= vTableMetaData.size;
@@ -66,7 +72,7 @@ namespace ObjectSerializer
 						startData += vTableMetaData.size;
 					}
 				}
-#ifdef OBJECT_SERIALIZER_DEBUG
+#if defined(OBJECT_SERIALIZER_DEBUG) && LOGGER_LIBRARY_AVAILABLE == 1
 				logger.logInfo("Serializing object of type: " + meta.name + " [" + std::to_string(byteCount) + " bytes]");
 #endif
 				outFile.write(startData, byteCount);
@@ -81,13 +87,15 @@ namespace ObjectSerializer
 	}
 	bool Serializer::loadFromFile(const std::string& filename, std::vector<ISerializable*>& objs)
 	{
-#ifdef OBJECT_SERIALIZER_DEBUG
+#if defined(OBJECT_SERIALIZER_DEBUG) && LOGGER_LIBRARY_AVAILABLE == 1
 		Log::LogObject& logger = getLogger();
 #endif
 		std::ifstream inFile(filename, std::ios::binary);
 		if (!inFile.is_open())
 		{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 			getLogger().logError("Failed to open file: " + filename);
+#endif
 			return false;
 		}
 		objs.clear();
@@ -100,7 +108,9 @@ namespace ObjectSerializer
 			inFile.read(reinterpret_cast<char*>(&typeHash), sizeof(typeHash));
 			if (!inFile)
 			{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 				getLogger().logError("Failed to read objects");
+#endif
 				return false; // EOF or read error
 			}
 
@@ -120,7 +130,7 @@ namespace ObjectSerializer
 						startData += vTableMetaData.size;
 					}
 				}
-#ifdef OBJECT_SERIALIZER_DEBUG
+#if defined(OBJECT_SERIALIZER_DEBUG) && LOGGER_LIBRARY_AVAILABLE == 1
 				logger.logInfo("Deserializing object of type: " + meta.name + " [" + std::to_string(byteCount) + " bytes]");
 #endif
 				inFile.read(startData, byteCount);
@@ -142,7 +152,9 @@ namespace ObjectSerializer
 		std::fstream file(filename, std::ios::binary | std::ios::in | std::ios::out);
 		if (!file.is_open())
 		{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 			getLogger().logError("Failed to open file: " + filename);
+#endif
 			return false;
 		}
 		if (setCursorToID(file, obj->getID()))
@@ -163,7 +175,9 @@ namespace ObjectSerializer
 				{
 					if (meta.size < vTableMetaData.size)
 					{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 						getLogger().logError("Object size is less than vtable size. Type: " + meta.name);
+#endif
 						return false;
 					}
 					byteCount -= vTableMetaData.size;
@@ -172,7 +186,7 @@ namespace ObjectSerializer
 						startData += vTableMetaData.size;
 					}
 				}
-#ifdef OBJECT_SERIALIZER_DEBUG
+#if defined(OBJECT_SERIALIZER_DEBUG) && LOGGER_LIBRARY_AVAILABLE == 1
 				getLogger().logInfo("Serializing object of type: " + meta.name + " [" + std::to_string(byteCount) + " bytes]");
 #endif
 				file.write(startData, byteCount);
@@ -191,7 +205,9 @@ namespace ObjectSerializer
 		std::fstream inFile(filename, std::ios::binary | std::ios::in);
 		if (!inFile.is_open())
 		{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 			getLogger().logError("Failed to open file: " + filename);
+#endif
 			return false;
 		}
 		obj = nullptr;
@@ -221,7 +237,7 @@ namespace ObjectSerializer
 						startData += vTableMetaData.size;
 					}
 				}
-#ifdef OBJECT_SERIALIZER_DEBUG
+#if defined(OBJECT_SERIALIZER_DEBUG) && LOGGER_LIBRARY_AVAILABLE == 1
 				getLogger().logInfo("Deserializing object of type: " + meta.name + " [" + std::to_string(byteCount) + " bytes]");
 #endif
 				inFile.read(startData, byteCount);
@@ -347,11 +363,19 @@ namespace ObjectSerializer
 
 	void Serializer::typeWithHashNotRegistered(const std::size_t typeHash)
 	{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 		getLogger().logError("Type with hash: " + std::to_string(typeHash) + " not registered");
+#else
+		OS_UNUSED(typeHash);
+#endif
 	}
 	void Serializer::typeNotRegistered(const ISerializable* obj)
 	{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 		getLogger().logError("Type: " + std::string(typeid(*obj).name()) + " not registered");
+#else
+		OS_UNUSED(obj);
+#endif
 	}
 
 	
@@ -401,7 +425,9 @@ namespace ObjectSerializer
 			file.read(reinterpret_cast<char*>(&typeHash), sizeof(typeHash));
 			if (!file)
 			{
+#if LOGGER_LIBRARY_AVAILABLE == 1
 				getLogger().logError("Failed to read objects");
+#endif
 				return false; // EOF or read error
 			}
 
