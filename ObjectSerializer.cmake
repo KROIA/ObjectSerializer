@@ -1,4 +1,4 @@
-## description: library to save and load objects to/from a binary file
+## description: Library to save and load objects to/from a binary file
 include(FetchContent)
 
 function(dep LIBRARY_MACRO_NAME SHARED_LIB STATIC_LIB STATIC_PROFILE_LIB INCLUDE_PATHS)
