@@ -108,10 +108,10 @@ namespace ObjectSerializer
 			inFile.read(reinterpret_cast<char*>(&typeHash), sizeof(typeHash));
 			if (!inFile)
 			{
-#if LOGGER_LIBRARY_AVAILABLE == 1
-				getLogger().logError("Failed to read objects");
-#endif
-				return false; // EOF or read error
+//#if LOGGER_LIBRARY_AVAILABLE == 1
+//				getLogger().logError("Failed to read objects");
+//#endif
+				return true;//return false; // EOF or read error
 			}
 
 			const auto& it = mataMap.find(typeHash);
@@ -218,6 +218,10 @@ namespace ObjectSerializer
 
 			std::size_t typeHash;
 			inFile.read(reinterpret_cast<char*>(&typeHash), sizeof(typeHash));
+			if (!inFile)
+			{
+				return false; 
+			}
 
 			const auto& it = mataMap.find(typeHash);
 
