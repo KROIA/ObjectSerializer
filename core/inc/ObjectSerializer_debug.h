@@ -91,7 +91,7 @@ namespace ObjectSerializer
 /// USER_SECTION_START 4
 
 /// USER_SECTION_END
-	class OBJECT_SERIALIZER_EXPORT Profiler
+	class OBJECT_SERIALIZER_API Profiler
 	{
 	public:
 		/// USER_SECTION_START 5
@@ -114,7 +114,7 @@ namespace ObjectSerializer
 
 
 #if LOGGER_LIBRARY_AVAILABLE == 1
-	class OBJECT_SERIALIZER_EXPORT Logger 
+	class OBJECT_SERIALIZER_API Logger 
 	{
 		/// USER_SECTION_START 8
 

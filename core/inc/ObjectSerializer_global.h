@@ -11,13 +11,13 @@
 #ifndef BUILD_STATIC
 	//#pragma message("OBJECTSERIALIZER_LIB is a shared library")
 	#if defined(OBJECTSERIALIZER_LIB)
-		#define OBJECT_SERIALIZER_EXPORT __declspec(dllexport)
+		#define OBJECT_SERIALIZER_API __declspec(dllexport)
 	#else
-		#define OBJECT_SERIALIZER_EXPORT __declspec(dllimport)
+		#define OBJECT_SERIALIZER_API __declspec(dllimport)
 	#endif
 #else 
 	//#pragma message("OBJECTSERIALIZER_LIB is a static library")
-	#define OBJECT_SERIALIZER_EXPORT
+	#define OBJECT_SERIALIZER_API
 #endif
 
 /// USER_SECTION_START 2

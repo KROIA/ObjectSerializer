@@ -29,7 +29,7 @@ namespace ObjectSerializer
 
 /// USER_SECTION_END
 
-	class OBJECT_SERIALIZER_EXPORT LibraryInfo
+	class OBJECT_SERIALIZER_API LibraryInfo
 	{
 		LibraryInfo() = delete;
 		LibraryInfo(const LibraryInfo&) = delete;
