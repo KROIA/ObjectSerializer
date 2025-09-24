@@ -11,7 +11,7 @@ namespace ObjectSerializer
 {
     class ISerializable;
 	class ISerializableID;
-    class OBJECT_SERIALIZER_EXPORT Serializer
+    class OBJECT_SERIALIZER_API Serializer
     {
         struct VTableMetaData
         {

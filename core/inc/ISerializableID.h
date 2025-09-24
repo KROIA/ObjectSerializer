@@ -4,7 +4,7 @@
 
 namespace ObjectSerializer
 {
-    class OBJECT_SERIALIZER_EXPORT ISerializableID : public ISerializable
+    class OBJECT_SERIALIZER_API ISerializableID : public ISerializable
     {
         public:
         ISerializableID();
