@@ -167,9 +167,10 @@ namespace ObjectSerializer
 		return widget;
 	}
 #else
-	QWidget* LibraryInfo::createInfoWidget(QWidget* parent)
+	QWidget* LibraryInfo::createInfoWidget(QWidget* parent, bool disableHyperlink)
 	{
 		OS_UNUSED(parent);
+		OS_UNUSED(disableHyperlink);
 		return nullptr;
 	}
 #endif
